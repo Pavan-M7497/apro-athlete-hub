@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfileEditRouteImport } from './routes/profile.edit'
 import { Route as AthleteIdRouteImport } from './routes/athlete.$id'
 
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRouteWithChildren
+  '/search': typeof SearchRoute
   '/athlete/$id': typeof AthleteIdRoute
   '/profile/edit': typeof ProfileEditRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRouteWithChildren
+  '/search': typeof SearchRoute
   '/athlete/$id': typeof AthleteIdRoute
   '/profile/edit': typeof ProfileEditRoute
 }
@@ -60,19 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRouteWithChildren
+  '/search': typeof SearchRoute
   '/athlete/$id': typeof AthleteIdRoute
   '/profile/edit': typeof ProfileEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/profile' | '/athlete/$id' | '/profile/edit'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/profile'
+    | '/search'
+    | '/athlete/$id'
+    | '/profile/edit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/profile' | '/athlete/$id' | '/profile/edit'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/profile'
+    | '/search'
+    | '/athlete/$id'
+    | '/profile/edit'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/profile'
+    | '/search'
     | '/athlete/$id'
     | '/profile/edit'
   fileRoutesById: FileRoutesById
@@ -81,11 +103,19 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   ProfileRoute: typeof ProfileRouteWithChildren
+  SearchRoute: typeof SearchRoute
   AthleteIdRoute: typeof AthleteIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -139,6 +169,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   ProfileRoute: ProfileRouteWithChildren,
+  SearchRoute: SearchRoute,
   AthleteIdRoute: AthleteIdRoute,
 }
 export const routeTree = rootRouteImport
