@@ -13,6 +13,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfileEditRouteImport } from './routes/profile.edit'
+import { Route as AthleteIdRouteImport } from './routes/athlete.$id'
 
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
@@ -34,17 +35,24 @@ const ProfileEditRoute = ProfileEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => ProfileRoute,
 } as any)
+const AthleteIdRoute = AthleteIdRouteImport.update({
+  id: '/athlete/$id',
+  path: '/athlete/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRouteWithChildren
+  '/athlete/$id': typeof AthleteIdRoute
   '/profile/edit': typeof ProfileEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRouteWithChildren
+  '/athlete/$id': typeof AthleteIdRoute
   '/profile/edit': typeof ProfileEditRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRouteWithChildren
+  '/athlete/$id': typeof AthleteIdRoute
   '/profile/edit': typeof ProfileEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/profile' | '/profile/edit'
+  fullPaths: '/' | '/dashboard' | '/profile' | '/athlete/$id' | '/profile/edit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/profile' | '/profile/edit'
-  id: '__root__' | '/' | '/dashboard' | '/profile' | '/profile/edit'
+  to: '/' | '/dashboard' | '/profile' | '/athlete/$id' | '/profile/edit'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/profile'
+    | '/athlete/$id'
+    | '/profile/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   ProfileRoute: typeof ProfileRouteWithChildren
+  AthleteIdRoute: typeof AthleteIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -98,6 +114,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileEditRouteImport
       parentRoute: typeof ProfileRoute
     }
+    '/athlete/$id': {
+      id: '/athlete/$id'
+      path: '/athlete/$id'
+      fullPath: '/athlete/$id'
+      preLoaderRoute: typeof AthleteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -116,6 +139,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   ProfileRoute: ProfileRouteWithChildren,
+  AthleteIdRoute: AthleteIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
