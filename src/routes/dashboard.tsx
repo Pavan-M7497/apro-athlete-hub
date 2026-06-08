@@ -8,13 +8,13 @@ export const Route = createFileRoute("/dashboard")({
 
 const USER_AVATAR = "https://lh3.googleusercontent.com/aida-public/AB6AXuBXpkchC08VfLY0LjqxmSTjDrBekvS4VHHIOU9QzBu1SdZNjgGQPvvPrtdjsAjXf3-SwcbzbDUUsMs83AqaT8k11Awv5DAYrLBy2XZDQdevb9-xYPZZdp9I_Kt6bMoLo4cyCKDQJVK_Id4gtFbP25hvQUJX2lB_FClFgsL5vzovsTBkluonDmW8wzeSDv4m9g6sWKBaaUKKRMyaG6oJ0QHGlxPtLjNFq2HfDdSkv7NOVWE5YmT0n3HUwpCfPhCyghJl_rnBsC2ioVT_";
 
-const navItems = [
+const navItems: { icon: string; label: string; active?: boolean; to: string }[] = [
   { icon: "dashboard", label: "Overview", active: true, to: "/dashboard" },
   { icon: "monitoring", label: "Stats", to: "/dashboard" },
   { icon: "folder_special", label: "Portfolio", to: "/dashboard" },
   { icon: "timeline", label: "Career", to: "/dashboard" },
   { icon: "mail", label: "Messages", to: "/dashboard" },
-] as const;
+];
 
 function Dashboard() {
   return (
